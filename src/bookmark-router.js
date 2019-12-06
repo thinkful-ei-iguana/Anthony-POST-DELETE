@@ -41,7 +41,6 @@ bookmarkRouter
 
 bookmarkRouter.route('/bookmark').post(bodyParser, (req, res) => {
   const { title, url, rating, desc } = req.body;
-  console.log(req.body);
 
   if (!title) {
     logger.error('Title is required');
