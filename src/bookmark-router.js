@@ -39,7 +39,7 @@ bookmarkRouter
     res.status(204).end();
   });
 
-bookmarkRouter.route('/bookmark').post(bodyParser, (req, res) => {
+bookmarkRouter.route('/bookmarks').post(bodyParser, (req, res) => {
   const { title, url, rating, desc } = req.body;
 
   if (!title) {
