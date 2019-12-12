@@ -8,6 +8,7 @@ const app = express();
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 const logger = require('./logger');
 const bookmarkRouter = require('./bookmark-router');
+const knex = require('knex');
 
 app.use(morgan(morganOption));
 app.use(helmet());
