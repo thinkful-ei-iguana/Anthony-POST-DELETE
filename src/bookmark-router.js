@@ -4,6 +4,7 @@ const uuid = require('uuid/v4');
 const logger = require('./logger');
 const bodyParser = express.json();
 const BookmarkService = require('../BookmarkService');
+const xss = require('xss');
 
 bookmarkRouter.get('/bookmarks', (req, res, next) => {
   const knexInstance = req.app.get('db');
@@ -25,7 +26,13 @@ bookmarkRouter
           logger.error(`bookmark with id ${id} not found`);
           return res.status(404).send('Bookmark not found');
         }
-        res.json(bookmark);
+        res.json({
+          id: bookmark.id,
+          title: bookmark.title,
+          url: xss(bookmark.url),
+          rating: bookmark.rating,
+          description: xss(bookmark.description)
+        });
       })
       .catch(next);
   })
@@ -74,7 +81,7 @@ bookmarkRouter.route('/bookmarks').post(bodyParser, (req, res, next) => {
       const { id } = bookmark;
       logger.info(`Bookmark with id of ${id} was created`);
       res
-        .status(202)
+        .status(201)
         .location(`http://localhost:8000/bookmark/${id}`)
         .json(bookmark);
     })
